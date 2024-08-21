@@ -11,8 +11,8 @@ Router::get('/ads/{id}', function (int $id) {
 });
 
 
-Router::get('/ads/create', fn()=> loadView('admin/create-ad'));
-Router::post('/ads/create', fn()=> loadController('createAd'));
+Router::get('/ads/create', fn()=> loadController('createAdG'));
+Router::post('/ads/create',  fn()=> loadController('createAd'));
 
 Router::get('/status', fn()=> loadController('showStatus'));
 Router::get('/status/create', fn()=> loadView('admin/create-status'));

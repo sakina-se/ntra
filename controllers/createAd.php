@@ -3,43 +3,30 @@
 declare(strict_types=1);
 
 $title       = $_POST['title'];
-$description = $_POST['description'];
+$description = $_POST['desc'];
 $price       = (float) $_POST['price'];
-//$gender      = $_POST['gender'];
-$branch      = (int) $_POST['branch'];
+$branch      = (int) $_POST['branch_id'];
 $address     = $_POST['address'];
 $rooms       = (int) $_POST['rooms'];
 
 if ($_POST['title']
-&& $_POST['description']
-&& $_POST['price']
-&& $_POST['address']
-&& $_POST['rooms']) {
+    && $_POST['desc']
+    && $_POST['price']
+    && $_POST['address']
+    && $_POST['rooms']
+) {
     $newAdsId = (new \App\Ads())->createAds(
         $title,
         $description,
         1,
         1,
-        1,
+        $branch,
         $address,
         $price,
         $rooms
     );
+    header('Location: /');
 
-    if ($newAdsId) {
-        $imageHandler = new \App\Image();
-        $fileName     = $imageHandler->handleUpload();
-
-        if (!$fileName) {
-            exit('Rasm yuklanmadi!');
-        }
-
-        $imageHandler->addImage((int)$newAdsId, $fileName);
-
-        header('Location: /');
-
-        exit();
-    }
-
-    return;
 }
+
+echo "Iltimos, barcha maydonlarni to'ldiring!";
