@@ -31,12 +31,12 @@ loadPartials('header');
                             <div class="grid grid-cols-1">
                                 <div class="mb-4">
                                     <label class="font-medium" for="LoginEmail">Email Address:</label>
-                                    <input id="LoginEmail" type="email" class="form-input mt-3" placeholder="name@example.com">
+                                    <input id="LoginEmail" name="email" type="email" class="form-input mt-3" placeholder="name@example.com">
                                 </div>
 
                                 <div class="mb-4">
                                     <label class="font-medium" for="LoginPassword">Password:</label>
-                                    <input id="LoginPassword" type="password" class="form-input mt-3" placeholder="Password:">
+                                    <input id="LoginPassword" name="password" type="password" class="form-input mt-3" placeholder="Password:">
                                 </div>
 
                                 <div class="flex justify-between mb-4">
@@ -48,7 +48,7 @@ loadPartials('header');
                                 </div>
 
                                 <div class="mb-4">
-                                    <a href="" class="btn bg-green-600 hover:bg-green-700 text-white rounded-md w-full">Login / Sign in</a>
+                                    <button type="submit" class="btn bg-green-600 hover:bg-green-700 text-white rounded-md w-full">Login / Sign in</button>
                                 </div>
 
                                 <div class="text-center">

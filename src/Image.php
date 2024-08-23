@@ -29,11 +29,14 @@ class Image
     public function handleUpload()
     {
         if ($_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+            if ($_FILES['image']['error'] == 4) {
+                return 'default.jpg';
+            }
             exit('Error: ' . $_FILES['image']['error']);
         }
+
         $name = $_FILES['image']['name'];
         $path = $_FILES['image']['tmp_name'];
-
         $uploadPath = basePath("/public/assets/images/ads");
 
         if (!is_dir($uploadPath)) {

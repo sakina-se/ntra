@@ -283,3 +283,6 @@ loadPartials('navbar');
     </main>
     <!-- End Page Content -->
 </div>
+<?php
+loadPartials('footer');
+?>

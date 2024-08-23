@@ -19,18 +19,20 @@ class User
         string $username,
         string $position,
         string $gender,
-        string $phone
-    ): false|array {
-        $query = "INSERT INTO users (username, position, gender, phone, created_at)
-                  VALUES (:username, :position, :gender, :phone, NOW())";
+        string $phone,
+        string $email,
+        string $password
+    ): bool {
+        $query = "INSERT INTO users (username, position, gender, phone, created_at, email, password)
+                  VALUES (:username, :position, :gender, :phone, NOW(), :email, :password)";
         $stmt  = $this->pdo->prepare($query);
         $stmt->bindParam(':username', $username);
         $stmt->bindParam(':position', $position);
         $stmt->bindParam(':gender', $gender);
         $stmt->bindParam(':phone', $phone);
-        $stmt->execute();
-
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $password);
+        return $stmt->execute();
     }
 
     public function getUser(int $id)
@@ -38,6 +40,23 @@ class User
         $query = "SELECT * FROM users WHERE id = :id";
         $stmt  = $this->pdo->prepare($query);
         $stmt->bindParam(':id', $id);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getUsers()
+    {
+        $query = "SELECT * FROM users";
+        $stmt  = $this->pdo->query($query);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function checkUser(string $email, string $password)
+    {
+        $query = "SELECT * FROM users WHERE email = :email AND password = :password";
+        $stmt  = $this->pdo->prepare($query);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $password);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }

@@ -54,31 +54,18 @@ class Ads
 
     public function getAdr(int $id)
     {
-        $query = "SELECT 
-                ads.id AS id,
-                ads.title AS title,
-                ads.description AS description,
-                ads.price AS price,
-                ads.rooms AS rooms,
-                ads.address AS address,
-                ads.created_at AS created_at,
-                branch.name AS branch,
-                users.username AS user,
-                users.position AS position,
-                users.gender AS gender,
-                users.phone AS phone,
-                status.name AS status_name
-              FROM ads
+        $query = "SELECT *, ads.id as id, ads_image.name as image, branch.name as branch, status.name as status_name FROM ads
               JOIN branch ON branch.id = ads.branch_id
               JOIN users ON users.id = ads.user_id
               JOIN status ON status.id = ads.status_id
+             LEFT JOIN ads_image ON ads_image.ads_id = ads.id
               WHERE ads.id = :id";  // Bu yerda idni bog'lab oldik
 
         $stmt = $this->pdo->prepare($query); // So'rovni tayyorlaymiz
         $stmt->bindParam(':id', $id, PDO::PARAM_INT); // Parametrni bog'laymiz
-        $stmt->execute(); // So'rovni bajarib, natijani olamiz
+        $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_OBJ); // Natijani obyekt shaklida qaytaramiz
+        return $stmt->fetchAll();
     }
 
 
