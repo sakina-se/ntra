@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\middlewares\Authentication;
+
 class Router
 {
     protected object|null $updates;
@@ -41,8 +43,12 @@ class Router
         return $this->updates;
     }
 
-    public static function get($path, $callback): void
+    public static function get($path, $callback, string|null $middleware = null)
     {
+        if ($path === parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) {
+            (new Authentication())->handle($middleware);
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             if ((new self())->getResourceId()) {
                 $path = str_replace('{id}', (string) (new self())->getResourceId(), $path);
@@ -56,10 +62,16 @@ class Router
                 exit();
             }
         }
+
+        return (new Router());
     }
 
-    public static function post($path, $callback): void
+    public static function post($path, $callback, string|null $middleware = null): void
     {
+        if ($path === parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) {
+            (new Authentication())->handle($middleware);
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] === $path) {
             $callback();
             exit();
@@ -72,7 +84,6 @@ class Router
         if ($code == 404) {
             loadView('404');
         }
-//        echo json_encode(['ok' => false, 'code' => $code, 'message' => $message]);
         exit();
     }
 }

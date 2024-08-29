@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use App\Ads;
 use App\User;
 
 class UserController
@@ -47,5 +48,11 @@ class UserController
                 exit();
             }
         }
+    }
+
+    public function loadProfile(): void
+    {
+        $ads = (new Ads())->getUsersAds($_SESSION['user']['id']);
+        loadView('profile', ['ads' => $ads], false);
     }
 }

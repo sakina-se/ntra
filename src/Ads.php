@@ -52,17 +52,17 @@ class Ads
         return $stmt->fetch();
     }
 
-    public function getAdr(int $id)
+    public function getAdr(int $id): false|array
     {
         $query = "SELECT *, ads.id as id, ads_image.name as image, branch.name as branch, status.name as status_name FROM ads
               JOIN branch ON branch.id = ads.branch_id
               JOIN users ON users.id = ads.user_id
               JOIN status ON status.id = ads.status_id
              LEFT JOIN ads_image ON ads_image.ads_id = ads.id
-              WHERE ads.id = :id";  // Bu yerda idni bog'lab oldik
+              WHERE ads.id = :id";
 
-        $stmt = $this->pdo->prepare($query); // So'rovni tayyorlaymiz
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT); // Parametrni bog'laymiz
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         return $stmt->fetchAll();
@@ -73,6 +73,16 @@ class Ads
     {
         $query = "SELECT *, ads.id AS id, ads.address AS address FROM ads JOIN branch ON branch.id = ads.branch_id";
          return $this->pdo->query($query)->fetchAll();
+    }
+
+    public function getUsersAds(int $userId): false|array
+    {
+        $query = "SELECT *, ads.id AS id, ads.address AS address, ads_image.name AS image
+                  FROM ads
+                    JOIN branch ON branch.id = ads.branch_id
+                    LEFT JOIN ads_image ON ads.id = ads_image.ads_id
+                  WHERE user_id = $userId";
+        return $this->pdo->query($query)->fetchAll();
     }
 
     public function updateAds(

@@ -9,12 +9,7 @@ use Controller\UserController;
 
 Router::get('/', fn()=> loadController('home'));
 
-Router::get('/ads/{id}', function (int $id) {
-//    loadController('showAd', ['id'=>$id]);
-    (new AdController())->show($id);
-});
-
-//dd($_SERVER['REQUEST_URI']);
+Router::get('/ads/{id}', fn(int $id) => (new AdController())->show($id));
 Router::get('/ads/create', fn()=> loadController('createAdG'));
 Router::post('/ads/create',  fn()=> (new AdController())->create());
 
@@ -26,11 +21,14 @@ Router::get('/branch', fn()=> (new BranchController())->index());
 Router::get('/branch/create', fn()=> loadView('dashboard/create-branch'));
 Router::post('/branch/create', fn()=> (new BranchController())->create());
 
-Router::get('/login', fn()=> loadController('login'));
+Router::get('/login', fn()=> loadView('auth/login'), 'guest');
 Router::post('/login', fn()=> (new UserController())->login());
-Router::get('/signup', fn()=> loadController('signup'));
-Router::post('/signup', fn()=> (new UserController())->create());
+Router::get('/signup', fn()=> loadView('auth/signup'), 'guest');
+Router::post('/signup', fn()=> (new UserController())->create(), 'guest');
 
 Router::get('/forget/password', fn()=> loadController('forgetPassword'));
+
+Router::get('/admin', fn() => loadView('dashboard/home'), 'auth');
+Router::get('/profile2', fn() => (new \Controller\UserController())->loadProfile());
 
 Router::errorResponse(404, 'Not Found');

@@ -51,6 +51,15 @@ class User
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function getByUsername(string $username){
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE username = :username AND password = :password");
+        $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':password', $password);
+        $stmt->execute();
+
+        return $stmt->fetch();
+    }
+
     public function checkUser(string $email, string $password)
     {
         $query = "SELECT * FROM users WHERE email = :email AND password = :password";
@@ -58,7 +67,21 @@ class User
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':password', $password);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user) {
+            $_SESSION['user'] = [
+                'email' => $user['email'],
+                'id' => $user['id'],
+            ];
+
+            unset($_SESSION['message']['error']);
+            header('Location: /');
+            exit();
+        }
+
+        $_SESSION['message']['error'] = "Wrong email or password";
+        header('Location: /login');
     }
 
     public function updateUser(
