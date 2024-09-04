@@ -24,6 +24,7 @@ function basePath(string $path): string
 
 function loadView(string $path, array|null $args = null, bool $loadFromPublic = true): void
 {
+//    dd($path);
     if ($loadFromPublic) {
         $file = "/public/pages/$path.php";
     } else {
@@ -31,7 +32,7 @@ function loadView(string $path, array|null $args = null, bool $loadFromPublic = 
     }
 
     $filePath = basePath($file);
-
+//    dd($filePath);
     if (!file_exists($filePath)) {
         echo "Required view not found: $filePath";
         return;

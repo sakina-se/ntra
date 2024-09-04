@@ -13,6 +13,9 @@ Router::get('/ads/{id}', fn(int $id) => (new AdController())->show($id));
 Router::get('/ads/create', fn()=> loadController('createAdG'));
 Router::post('/ads/create',  fn()=> (new AdController())->create());
 
+Router::get('/ads/update/{id}', fn(int $id) => (new AdController())->edit($id));
+Router::patch('/ads/update', fn(int $id) => (new AdController())->update($id));
+
 Router::get('/status', fn()=> loadController('showStatus'));
 Router::get('/status/create', fn()=> loadView('dashboard/create-status'));
 Router::post('/status/create', fn()=> loadController('createStatus'));
@@ -29,6 +32,6 @@ Router::post('/signup', fn()=> (new UserController())->create(), 'guest');
 Router::get('/forget/password', fn()=> loadController('forgetPassword'));
 
 Router::get('/admin', fn() => loadView('dashboard/home'), 'auth');
-Router::get('/profile2', fn() => (new \Controller\UserController())->loadProfile());
+Router::get('/profile', fn() => (new \Controller\UserController())->loadProfile());
 
 Router::errorResponse(404, 'Not Found');

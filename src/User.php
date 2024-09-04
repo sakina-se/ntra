@@ -82,6 +82,7 @@ class User
 
         $_SESSION['message']['error'] = "Wrong email or password";
         header('Location: /login');
+        return $user;
     }
 
     public function updateUser(

@@ -71,4 +71,17 @@ class AdController
         loadView('single-ad', ['ad' => $ad]);
 
     }
+
+    public function edit($id): void
+    {
+        /**
+         * @var $id
+         */
+
+        $ad = (new \App\Ads())->getAdr($id);
+
+        //$ad->image = "../assets/images/ads/$ad->image";
+
+        loadView('update-ad', ['ad' => $ad], false);
+    }
 }

@@ -163,7 +163,7 @@ loadPartials('navbar');
                                     </a>
                                 </li>
                                 <li class="my-1">
-                                    <a href="auth-login.html" class="flex items-center text-[15px] font-medium py-1.5 px-4 dark:text-white/70 hover:text-green-600 dark:hover:text-white">
+                                    <a href="/login" class="flex items-center text-[15px] font-medium py-1.5 px-4 dark:text-white/70 hover:text-green-600 dark:hover:text-white">
                                         <i data-feather="log-out" class="size-4 me-2"></i> Logout
                                     </a>
                                 </li>

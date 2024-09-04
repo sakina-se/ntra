@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 loadPartials('header');
-loadPartials('navbar');
+loadPartials('navbar'); 
 
 /**
  * @var $ad // Comes from controller
@@ -19,10 +19,6 @@ loadPartials('navbar');
                     <div class="tiny-one-item">
 
                         <div class="tiny-slide">
-                            <?php
-
-                                var_dump($ad[0]->image);
-                            ?>
                             <img src="../assets/images/ads/<?= $ad[0]->image?>"
                                  class="rounded-md shadow dark:shadow-gray-700" alt="">
                         </div>
@@ -98,7 +94,7 @@ loadPartials('navbar');
 
                                 <li class="flex justify-between items-center mt-2">
                                     <span class="text-slate-400 text-sm">User:</span>
-                                    <span class="font-medium text-sm"><?= $ad[0]->user; ?></span>
+                                    <span class="font-medium text-sm"><?= $ad[0]->username; ?></span>
                                 </li>
 
                                 <li class="flex justify-between items-center mt-2">
