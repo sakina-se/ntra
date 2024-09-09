@@ -68,6 +68,10 @@ class Router
 
     public static function post($path, $callback, string|null $middleware = null): void
     {
+        if (isset($_REQUEST['_method'])){
+            return;
+        }
+
         if ($path === parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) {
             (new Authentication())->handle($middleware);
         }
@@ -80,27 +84,28 @@ class Router
 
     public static function patch($path, $callback, string|null $middleware = null): void
     {
-        $isPatch = strtolower($_REQUEST['_method']) === 'patch';
-
-        if (!$isPatch) {
-            return;
-        }
-
         if ($path === parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) {
             (new Authentication())->handle($middleware);
         }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] === $path) {
-            if ((new self())->getResourceId()) {
-                $path = str_replace('{id}', (string)(new self())->getResourceId(), $path);
-                if ($path === parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) {
-                    $callback((new self())->getResourceId());
-                    exit();
-                }
+        if (isset($_REQUEST['_method'])){
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] === $path) {
+                $callback();
+                exit();
             }
-            $callback();
-            exit();
         }
+
+//        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_SERVER['REQUEST_URI'] === $path) {
+//            if ((new self())->getResourceId()) {
+//                $path = str_replace('{id}', (string)(new self())->getResourceId(), $path);
+//                if ($path === parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH)) {
+//                    $callback((new self())->getResourceId());
+//                    exit();
+//                }
+//            }
+//            $callback();
+//            exit();
+//        }
     }
 
     public static function errorResponse(int $code, $message = 'Error bad request'): void

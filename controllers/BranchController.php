@@ -1,6 +1,7 @@
 <?php
 
 namespace Controller;
+
 use App\Branch;
 
 class BranchController
@@ -28,5 +29,23 @@ class BranchController
                 exit();
             }
         }
+    }
+
+    public function update(): void
+    {
+
+    }
+
+    public function delete($id): void
+    {
+        $branch = new Branch();
+
+        $stmt = $branch->deleteBranch($id);
+
+        if ($stmt) {
+            header('Location: /branch');
+            exit();
+        }
+
     }
 }
